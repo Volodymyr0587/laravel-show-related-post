@@ -18,6 +18,9 @@
             <div class="col-md-6">
                 <h2>List of posts</h2>
             </div>
+            <div>
+                <a href="{{ route('posts.create') }}" class="text-blue-500 hover:underline">Create post</a>
+            </div>
         </div>
 
         @foreach ($posts as $post)
@@ -28,6 +31,11 @@
                     </p>
                     <p class="card-text">{{ $post->description }}</p>
                     <p>Category: {{ $post->category->name }}</p>
+                </div>
+                <div>
+                    @foreach ($post->images as $image)
+                        <img src="{{ asset('storage/' . $image->path) }}" alt="Post Image" width="100">
+                    @endforeach
                 </div>
             </div>
         @endforeach

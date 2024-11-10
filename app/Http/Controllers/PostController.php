@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = Post::with('images')->get();
         return view('posts.index', compact('posts'));
     }
 
@@ -21,7 +22,8 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+        return view('posts.create', compact('categories'));
     }
 
     /**
@@ -29,7 +31,29 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:1000',
+            'category_id' => 'required|exists:categories,id',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+        ]);
+
+        $post = Post::create(
+            [
+                'title' => $request->title,
+                'description' => $request->description,
+                'category_id' => $request->category_id,  // Save selected category
+            ]
+        );
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('post_images', 'public');
+                $post->images()->create(['path' => $path]);
+            }
+        }
+
+        return to_route('posts.index');
     }
 
     /**
