@@ -18,6 +18,11 @@
             <h5 class="card-title">{{ $post->title }}</h5>
             <p class="card-text">{{ $post->description }}</p>
             <p>{{ $post->category->name }}</p>
+            <div>
+                @foreach ($post->images as $image)
+                    <img src="{{ asset('storage/' . $image->path) }}" alt="Post Image" width="100">
+                @endforeach
+            </div>
         </div>
 
         <h4 class="p-2">The Related Posts</h4>
@@ -38,7 +43,7 @@
         <p class="text-danger p-2">There Are No Releted Posts.</p>
         @endif
 
-
+        <a href="{{ route('posts.edit', $post) }}" class="card-link">Edit</a>
 
     </div>
 
