@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Image;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -105,11 +107,40 @@ class PostController extends Controller
         return to_route('posts.show', $post);
     }
 
+    public function destroyPostImage(Post $post, Image $image)
+    {
+        // Ensure the image belongs to the post
+        if ($image->post_id !== $post->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Delete the image file from storage
+        if (Storage::disk('public')->exists($image->path)) {
+            Storage::disk('public')->delete($image->path);
+        }
+
+        // Set image path to null or delete the record
+        $image->delete();
+
+        return back()->with('success', 'Image deleted successfully.');
+    }
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Post $post)
     {
-        //
+         // Delete all associated images from storage
+        foreach ($post->images as $image) {
+            if (Storage::disk('public')->exists($image->path)) {
+                Storage::disk('public')->delete($image->path);
+            }
+            $image->delete(); // Delete the image record from the database
+        }
+
+        // Delete the post
+        $post->delete();
+
+        return to_route('posts.index')->with('success', 'Post and associated images deleted successfully.');
     }
 }

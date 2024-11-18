@@ -62,7 +62,13 @@
                         <p>{{ $message }}</p>
                     @enderror
 
-                    <button type="submit">Update Product</button>
+                    <button type="submit" class="btn btn-success">Update Post</button>
+                </form>
+
+                <form action="{{ route('posts.destroy', $post) }}" method="POST" onsubmit="return confirm('Are You Sure?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">DELETE</button>
                 </form>
 
                 <script>
