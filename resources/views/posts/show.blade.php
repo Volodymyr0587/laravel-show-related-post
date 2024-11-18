@@ -23,19 +23,21 @@
                     <img src="{{ asset('storage/' . $image->path) }}" alt="Post Image" width="100">
                 @endforeach
             </div>
+
+             <a href="{{ route('posts.edit', $post) }}" class="card-link">Edit</a>
         </div>
 
         <h4 class="p-2">The Related Posts</h4>
 
         @if ($relatedPosts->count() > 0)
-            @foreach ($relatedPosts as $post)
+            @foreach ($relatedPosts as $relatedPost)
                 <div class="card mb-3">
                     <div class="card-body">
                         <p class="card-title">
-                            <a href="{{ route('posts.show', $post) }}" class="card-link">{{ $post->title }}</a>
+                            <a href="{{ route('posts.show', $relatedPost) }}" class="card-link">{{ $relatedPost->title }}</a>
                         </p>
-                        <p class="card-text">{{ $post->description }}</p>
-                        <p>Category: {{ $post->category->name }}</p>
+                        <p class="card-text">{{ $relatedPost->description }}</p>
+                        <p>Category: {{ $relatedPost->category->name }}</p>
                     </div>
                 </div>
             @endforeach
@@ -43,7 +45,7 @@
         <p class="text-danger p-2">There Are No Releted Posts.</p>
         @endif
 
-        <a href="{{ route('posts.edit', $post) }}" class="card-link">Edit</a>
+
 
     </div>
 
