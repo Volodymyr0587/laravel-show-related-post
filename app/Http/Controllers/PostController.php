@@ -110,7 +110,7 @@ class PostController extends Controller
     public function destroyPostImage(Post $post, Image $image)
     {
         // Ensure the image belongs to the post
-        if ($image->post_id !== $post->id) {
+        if ($image->imageable_id !== $post->id) {
             abort(403, 'Unauthorized action.');
         }
 
