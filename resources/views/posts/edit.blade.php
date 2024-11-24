@@ -18,6 +18,23 @@
             <div class="col-md-6">
                 <h2>Fill out the form</h2>
 
+            <div class="container">
+                <div class="row">
+                @foreach ($post->images as $image)
+                    <div class="col-md-6">
+                        <img src="{{ asset('storage/' . $image->path) }}" alt="Post Image" width="100">
+                        <form action="{{ route('post.image.destroy', ['post' => $post->id, 'image' => $image->id]) }}" method="POST" style="display: inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" onclick="return confirm('Are you sure you want to delete this image?')">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                @endforeach
+                </div>
+            </div>
+
                 <form action="{{ route('posts.update', $post) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
