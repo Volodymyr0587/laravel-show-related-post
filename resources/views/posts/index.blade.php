@@ -19,7 +19,7 @@
                 <h2>List of posts</h2>
             </div>
             <div>
-                <a href="{{ route('posts.create') }}" class="text-blue-500 hover:underline">Create post</a>
+                <a href="{{ route('posts.create') }}" type="button" class="btn btn-primary">Create post</a>
             </div>
         </div>
 

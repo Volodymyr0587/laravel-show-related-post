@@ -24,7 +24,7 @@
                 @endforeach
             </div>
 
-             <a href="{{ route('posts.edit', $post) }}" class="card-link">Edit</a>
+             <a href="{{ route('posts.edit', $post) }}" type="button" class="btn btn-dark mt-2">Edit</a>
         </div>
 
         <h4 class="p-2">The Related Posts</h4>

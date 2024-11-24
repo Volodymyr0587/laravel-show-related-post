@@ -26,7 +26,7 @@
                         <form action="{{ route('post.image.destroy', ['post' => $post->id, 'image' => $image->id]) }}" method="POST" style="display: inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" onclick="return confirm('Are you sure you want to delete this image?')">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this image?')">
                                 Delete
                             </button>
                         </form>
