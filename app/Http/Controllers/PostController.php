@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\Image;
+use App\Rules\NoHtmlTags;
+use App\Rules\NoNumbers;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
@@ -15,7 +17,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('images')->get();
+        $posts = Post::with('images')->paginate(3);
         return view('posts.index', compact('posts'));
     }
 
@@ -34,8 +36,8 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:1000',
+            'title' => ['required', 'string', 'max:255', new NoNumbers],
+            'description' => ['required', 'string', 'max:1000', new NoHtmlTags],
             'category_id' => 'required|exists:categories,id',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
@@ -83,8 +85,8 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:1000',
+            'title' => ['required', 'string', 'max:255', new NoNumbers],
+            'description' => ['required', 'string', 'max:1000', new NoHtmlTags],
             'category_id' => 'required|exists:categories,id',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);

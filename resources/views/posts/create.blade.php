@@ -22,7 +22,7 @@
                     @csrf
                     <div>
                         <label>Post Title:</label>
-                        <input type="text" name="title" required>
+                        <input type="text" name="title" value="{{ old('title') }}">
                         @error('title')
                             <p>{{ $message }}</p>
                         @enderror
@@ -30,7 +30,7 @@
 
                     <div>
                         <label>Description:</label>
-                        <textarea name="description"></textarea>
+                        <textarea name="description">{{ old('description') }}</textarea>
                         @error('description')
                             <p>{{ $message }}</p>
                         @enderror

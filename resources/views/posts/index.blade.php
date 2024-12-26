@@ -40,6 +40,9 @@
             </div>
         @endforeach
 
+        <div class="my-5">
+            {{ $posts->links('pagination::bootstrap-5') }}
+        </div>
     </div>
 
 </body>
